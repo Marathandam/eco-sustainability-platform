@@ -1,4 +1,13 @@
 import firebase_admin
 from firebase_admin import credentials
-cred = credentials.Certificate("firebase_keys/sustainabilityscorecard-firebase-adminsdk-fbsvc-8136ea9359.json")
+import os
+from dotenv import load_dotenv
+import json 
+
+load_dotenv()
+
+FIREBASE_KEY=json.loads(os.getenv("FIREBASE_KEY"))
+
+
+cred = credentials.Certificate(FIREBASE_KEY)
 firebase_admin.initialize_app(cred)
