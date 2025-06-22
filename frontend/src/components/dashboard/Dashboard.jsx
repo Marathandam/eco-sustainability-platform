@@ -20,9 +20,9 @@ const Dashboard = () => {
             <div style={{ gridColumn: 'span 2' }}>
               <StatsCards />
             </div>
-            <div>
+            {/* <div>
               <UserProfile user={djangoUser} firebaseUser={currentUser} />
-            </div>
+            </div> */}
           </div>
           
           <ProductsList />

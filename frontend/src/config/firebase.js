@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBgqpazv7QQdAl1eHbYGqOWXVTWkJjW3jc",
-  authDomain: "walmart-5120a.firebaseapp.com",
-  projectId: "walmart-5120a",
-  storageBucket: "walmart-5120a.firebasestorage.app",
-  messagingSenderId: "395507960842",
-  appId: "1:395507960842:web:85b454a0269a3e0a98a3f3",
-  measurementId: "G-L9W3V0D7R4"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
