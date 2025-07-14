@@ -20,14 +20,23 @@ const Dashboard = () => {
           id: Date.now(),
           name: formData.name_prod,
           description: formData.description_prod,
-          score: result[0].sustainability_score_percent || 0,
-          labels: result[0].predicted_labels || [],
-          timestamp: new Date().toLocaleString()
+          total_score: Math.round(result[0].sustainability_score_percent || 0),
+          predicted_labels: result[0].predicted_labels || [],
+          labels: result[0].predicted_labels || [], // Keep both for compatibility
+          certificates: result[0].predicted_labels || [], // Add certificates field for display
+          timestamp: new Date().toLocaleString(),
+          source: 'comprehensive_form' // Track which form was used
         };
         
         setProducts(prev => [newProduct, ...prev]);
         setActiveTab('products'); // Switch to products tab to see result
-        alert(`✅ Prediction completed! Sustainability Score: ${newProduct.score}%`);
+        
+        // Enhanced success message with certificates
+        const certificateNames = result[0].predicted_labels?.length > 0 
+          ? result[0].predicted_labels.join(', ') 
+          : 'None assigned';
+        
+        alert(`✅ Prediction completed!\n\nSustainability Score: ${newProduct.total_score}%\n\nSustainability Certificates: ${certificateNames}\n\nProduct added to recent products!`);
       }
     } catch (error) {
       console.error('Prediction error:', error);

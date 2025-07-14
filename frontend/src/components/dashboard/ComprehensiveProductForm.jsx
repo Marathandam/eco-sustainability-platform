@@ -7,23 +7,23 @@ const ComprehensiveProductForm = ({ onPredict, isLoading }) => {
     name_prod: '',
     description_prod: '',
     
-    // 14 Real sustainability features (0-10 scale typically)
-    cred_credibility: 5,
-    eco_chemicals: 5,
-    eco_lifetime: 5,
-    eco_water: 5,
-    eco_inputs: 5,
-    eco_quality: 5,
-    eco_energy: 5,
-    eco_waste_air: 5,
-    eco_environmental_management: 5,
-    social_labour_rights: 5,
-    social_business_practice: 5,
-    social_social_rights: 5,
-    social_company_responsibility: 5,
-    social_conflict_minerals: 5,
+    // 14 Real sustainability features (any number allowed)
+    cred_credibility: 0.5,
+    eco_chemicals: 0.5,
+    eco_lifetime: 0.5,
+    eco_water: 0.5,
+    eco_inputs: 0.5,
+    eco_quality: 0.5,
+    eco_energy: 0.5,
+    eco_waste_air: 0.5,
+    eco_environmental_management: 0.5,
+    social_labour_rights: 0.5,
+    social_business_practice: 0.5,
+    social_social_rights: 0.5,
+    social_company_responsibility: 0.5,
+    social_conflict_minerals: 0.5,
     
-    // 24 Engineered features (placeholders - can be 0 or calculated values)
+    // 24 engineered features (any number allowed)
     feature_1: 0,
     feature_2: 0,
     feature_3: 0,
@@ -50,209 +50,238 @@ const ComprehensiveProductForm = ({ onPredict, isLoading }) => {
     feature_24: 0,
   });
 
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  // Core sustainability metrics with user-friendly labels
+  const coreMetrics = [
+    { key: 'cred_credibility', label: 'Credibility Score', desc: 'Overall trustworthiness and verification level' },
+    { key: 'eco_chemicals', label: 'Chemical Safety', desc: 'Use of safe, non-toxic chemicals' },
+    { key: 'eco_lifetime', label: 'Product Lifetime', desc: 'Durability and longevity of the product' },
+    { key: 'eco_water', label: 'Water Efficiency', desc: 'Water conservation in production' },
+    { key: 'eco_inputs', label: 'Sustainable Inputs', desc: 'Use of renewable/recycled materials' },
+    { key: 'eco_quality', label: 'Environmental Quality', desc: 'Overall environmental standards' },
+    { key: 'eco_energy', label: 'Energy Efficiency', desc: 'Renewable energy usage' },
+    { key: 'eco_waste_air', label: 'Waste & Air Quality', desc: 'Waste reduction and air pollution control' },
+    { key: 'eco_environmental_management', label: 'Environmental Management', desc: 'Environmental management systems' },
+    { key: 'social_labour_rights', label: 'Labour Rights', desc: 'Fair labor practices and worker rights' },
+    { key: 'social_business_practice', label: 'Business Ethics', desc: 'Ethical business practices' },
+    { key: 'social_social_rights', label: 'Social Rights', desc: 'Community and social responsibility' },
+    { key: 'social_company_responsibility', label: 'Corporate Responsibility', desc: 'Overall corporate social responsibility' },
+    { key: 'social_conflict_minerals', label: 'Ethical Sourcing', desc: 'Conflict-free mineral sourcing' },
+  ];
 
-  // Feature descriptions for user guidance
-  const featureDescriptions = {
-    cred_credibility: "Overall credibility of sustainability claims (0-10)",
-    eco_chemicals: "Chemical safety and eco-friendliness (0-10)",
-    eco_lifetime: "Product durability and lifespan (0-10)",
-    eco_water: "Water consumption efficiency (0-10)",
-    eco_inputs: "Sustainable raw material usage (0-10)",
-    eco_quality: "Environmental quality standards (0-10)",
-    eco_energy: "Energy efficiency in production/use (0-10)",
-    eco_waste_air: "Waste and air pollution management (0-10)",
-    eco_environmental_management: "Environmental management systems (0-10)",
-    social_labour_rights: "Fair labor practices (0-10)",
-    social_business_practice: "Ethical business practices (0-10)",
-    social_social_rights: "Social responsibility and rights (0-10)",
-    social_company_responsibility: "Corporate social responsibility (0-10)",
-    social_conflict_minerals: "Conflict-free mineral sourcing (0-10)"
-  };
+  // Advanced features for expert users
+  const advancedFeatures = Array.from({ length: 24 }, (_, i) => ({
+    key: `feature_${i + 1}`,
+    label: `Advanced Feature ${i + 1}`,
+    desc: `Custom engineered feature ${i + 1}`
+  }));
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [field]: value
+      [name]: name === 'name_prod' || name === 'description_prod' ? value : (value === '' ? '' : parseFloat(value) || 0)
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validate required fields
-    if (!formData.name_prod.trim()) {
-      alert('Product name is required');
-      return;
-    }
-    if (!formData.description_prod.trim()) {
-      alert('Product description is required');
-      return;
-    }
-
-    // Call prediction with exact backend format
-    onPredict(formData);
+    // Convert all numeric values to proper numbers
+    const processedData = { ...formData };
+    [...coreMetrics, ...advancedFeatures].forEach(field => {
+      processedData[field.key] = parseFloat(processedData[field.key]) || 0;
+    });
+    
+    // Call the prediction function (Dashboard will handle adding to recent products)
+    onPredict(processedData);
   };
 
   const resetForm = () => {
     setFormData({
       name_prod: '',
       description_prod: '',
-      cred_credibility: 5,
-      eco_chemicals: 5,
-      eco_lifetime: 5,
-      eco_water: 5,
-      eco_inputs: 5,
-      eco_quality: 5,
-      eco_energy: 5,
-      eco_waste_air: 5,
-      eco_environmental_management: 5,
-      social_labour_rights: 5,
-      social_business_practice: 5,
-      social_social_rights: 5,
-      social_company_responsibility: 5,
-      social_conflict_minerals: 5,
-      feature_1: 0, feature_2: 0, feature_3: 0, feature_4: 0, feature_5: 0,
-      feature_6: 0, feature_7: 0, feature_8: 0, feature_9: 0, feature_10: 0,
-      feature_11: 0, feature_12: 0, feature_13: 0, feature_14: 0, feature_15: 0,
-      feature_16: 0, feature_17: 0, feature_18: 0, feature_19: 0, feature_20: 0,
-      feature_21: 0, feature_22: 0, feature_23: 0, feature_24: 0,
+      ...Object.fromEntries(coreMetrics.map(m => [m.key, 0.5])),
+      ...Object.fromEntries(advancedFeatures.map(f => [f.key, 0])),
     });
+  };
+
+  const loadExample = () => {
+    // Example data from test.json - this could be extended with more examples
+    const exampleData = {
+    name_prod: "Sample Product 1167628",
+    description_prod: "",
+    cred_credibility: 0.0,
+    eco_chemicals: 23.99,
+    eco_lifetime: 1024.0,
+    eco_water: 2.0,
+    eco_inputs: 0.0,
+    eco_quality: 0.0,
+    eco_energy: 0.3522562638954091,
+    eco_waste_air: 0.0,
+    eco_environmental_management: 0.0,
+    social_labour_rights: 0.0,
+    social_business_practice: 0.0,
+    social_social_rights: 0.0,
+    social_company_responsibility: 0.19744953359911066,
+    social_conflict_minerals: 0.0,
+    feature_1: 0.0,
+    feature_2: 0.0,
+    feature_3: 0.0,
+    feature_4: 0.21169464245530029,
+    feature_5: 0.0,
+    feature_6: 0.0,
+    feature_7: 0.0,
+    feature_8: 0.0,
+    feature_9: 0.0,
+    feature_10: 0.0,
+    feature_11: 0.0,
+    feature_12: 0.0,
+    feature_13: 0.0,
+    feature_14: 0.0,
+    feature_15: 0.0,
+    feature_16: 0.28602796397335084,
+    feature_17: 0.0,
+    feature_18: 0.0,
+    feature_19: 0.0,
+    feature_20: 0.0,
+    feature_21: 0.0,
+    feature_22: 0.0,
+    feature_23: 0.0,
+    feature_24: 0.0
+  }
+
+    setFormData(exampleData);
   };
 
   return (
     <div className="comprehensive-form-container">
       <div className="form-header">
-        <h2>🌱 Sustainability Assessment Form</h2>
-        <p>Enter product details for AI-powered sustainability analysis</p>
+        <h2>🌱 Comprehensive Sustainability Assessment</h2>
+        <p>Enter any numeric values for accurate sustainability prediction</p>
+        <div className="form-actions">
+          <button type="button" onClick={loadExample} className="example-btn">
+            📝 Load Example
+          </button>
+          <button type="button" onClick={resetForm} className="reset-btn">
+            🔄 Reset Form
+          </button>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="comprehensive-form">
-        
         {/* Basic Product Information */}
         <div className="form-section">
           <h3>📦 Product Information</h3>
-          
-          <div className="form-group">
+          <div className="input-group">
             <label htmlFor="name_prod">Product Name *</label>
             <input
               type="text"
               id="name_prod"
+              name="name_prod"
               value={formData.name_prod}
-              onChange={(e) => handleInputChange('name_prod', e.target.value)}
+              onChange={handleInputChange}
               placeholder="e.g., Organic Cotton T-Shirt"
               required
             />
           </div>
-
-          <div className="form-group">
+          
+          <div className="input-group">
             <label htmlFor="description_prod">Product Description *</label>
             <textarea
               id="description_prod"
+              name="description_prod"
               value={formData.description_prod}
-              onChange={(e) => handleInputChange('description_prod', e.target.value)}
-              placeholder="Detailed description including materials, manufacturing process, certifications..."
-              rows={4}
+              onChange={handleInputChange}
+              placeholder="Detailed description including materials, certifications, manufacturing processes..."
+              rows="4"
               required
             />
           </div>
         </div>
 
-        {/* Sustainability Metrics */}
+        {/* Core Sustainability Metrics */}
         <div className="form-section">
-          <h3>🌍 Sustainability Metrics (Rate 0-10)</h3>
-          <p className="section-note">Rate each aspect based on available information. Default value is 5 (neutral).</p>
-          
+          <h3>🌍 Core Sustainability Metrics</h3>
+          <p className="section-description">
+            Enter any numeric values. Common ranges: 0.0-1.0 (percentages) or 0-10 (ratings)
+          </p>
           <div className="metrics-grid">
-            {Object.entries(featureDescriptions).map(([field, description]) => (
-              <div key={field} className="metric-group">
-                <label htmlFor={field}>
-                  {field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            {coreMetrics.map(metric => (
+              <div key={metric.key} className="metric-input">
+                <label htmlFor={metric.key}>
+                  {metric.label}
+                  <span className="metric-description">{metric.desc}</span>
                 </label>
-                <div className="metric-input">
-                  <input
-                    type="range"
-                    id={field}
-                    min="0"
-                    max="10"
-                    step="0.1"
-                    value={formData[field]}
-                    onChange={(e) => handleInputChange(field, parseFloat(e.target.value))}
-                  />
-                  <span className="metric-value">{formData[field]}</span>
-                </div>
-                <small className="metric-description">{description}</small>
+                <input
+                  type="number"
+                  id={metric.key}
+                  name={metric.key}
+                  value={formData[metric.key]}
+                  onChange={handleInputChange}
+                  step="any"
+                  placeholder="Any number"
+                />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Advanced Features */}
-        <div className="form-section">
-          <div className="advanced-toggle">
-            <button
-              type="button"
-              onClick={() => setShowAdvanced(!showAdvanced)}
-              className="toggle-btn"
-            >
-              {showAdvanced ? '🔼' : '🔽'} Advanced Features (Optional)
-            </button>
-          </div>
-
-          {showAdvanced && (
-            <div className="advanced-features">
-              <p className="section-note">
-                These are engineered features for advanced users. Default values are typically sufficient.
-              </p>
-              <div className="features-grid">
-                {Array.from({length: 24}, (_, i) => i + 1).map(num => (
-                  <div key={`feature_${num}`} className="feature-group">
-                    <label htmlFor={`feature_${num}`}>Feature {num}</label>
-                    <input
-                      type="number"
-                      id={`feature_${num}`}
-                      value={formData[`feature_${num}`]}
-                      onChange={(e) => handleInputChange(`feature_${num}`, parseFloat(e.target.value) || 0)}
-                      step="0.01"
-                    />
-                  </div>
-                ))}
+        {/* Advanced Features - Collapsible */}
+        <details className="form-section advanced-section">
+          <summary>
+            <h3>⚙️ Advanced Features (Optional)</h3>
+            <p>Custom engineered features for expert users</p>
+          </summary>
+          <div className="advanced-grid">
+            {advancedFeatures.map(feature => (
+              <div key={feature.key} className="advanced-input">
+                <label htmlFor={feature.key}>{feature.label}</label>
+                <input
+                  type="number"
+                  id={feature.key}
+                  name={feature.key}
+                  value={formData[feature.key]}
+                  onChange={handleInputChange}
+                  step="any"
+                  placeholder="0"
+                />
               </div>
-            </div>
-          )}
-        </div>
+            ))}
+          </div>
+        </details>
 
-        {/* Form Actions */}
-        <div className="form-actions">
-          <button
-            type="button"
-            onClick={resetForm}
-            className="btn-secondary"
-            disabled={isLoading}
-          >
-            🔄 Reset Form
-          </button>
+        {/* Submit Button */}
+        <div className="form-submit">
           <button
             type="submit"
-            className="btn-primary"
-            disabled={isLoading}
+            disabled={isLoading || !formData.name_prod || !formData.description_prod}
+            className="predict-btn"
           >
-            {isLoading ? '🔄 Analyzing...' : '🚀 Predict Sustainability'}
+            {isLoading ? (
+              <>
+                <span className="spinner"></span>
+                Analyzing Sustainability...
+              </>
+            ) : (
+              <>
+                🔍 Predict Sustainability Score
+              </>
+            )}
           </button>
         </div>
-      </form>
 
-      {/* Input Guidelines */}
-      <div className="input-guidelines">
-        <h4>📋 Input Guidelines</h4>
-        <ul>
-          <li><strong>Product Name:</strong> Clear, descriptive name (used for text analysis)</li>
-          <li><strong>Description:</strong> Detailed information about materials, process, certifications</li>
-          <li><strong>Sustainability Metrics:</strong> Rate 0-10 where 0=very poor, 5=average, 10=excellent</li>
-          <li><strong>Advanced Features:</strong> Leave as 0 unless you have specific calculated values</li>
-          <li><strong>Text Quality:</strong> More detailed descriptions lead to better predictions</li>
-        </ul>
-      </div>
+        {/* Input Guidelines */}
+        <div className="input-guidelines">
+          <h4>💡 Input Guidelines</h4>
+          <ul>
+            <li><strong>Any Numbers Allowed:</strong> Enter values in any scale (0-1, 0-10, 0-100, etc.)</li>
+            <li><strong>Decimal Values:</strong> Use decimals for precise measurements (e.g., 0.75, 8.5)</li>
+            <li><strong>Negative Values:</strong> Allowed if representing deficits or negative impacts</li>
+            <li><strong>Large Numbers:</strong> For absolute measurements (e.g., CO2 emissions in tons)</li>
+            <li><strong>Zero Values:</strong> Use 0 for features not applicable to your product</li>
+          </ul>
+        </div>
+      </form>
     </div>
   );
 };

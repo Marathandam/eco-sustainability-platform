@@ -1,12 +1,47 @@
+# Virtual Environment
 venv/
+env/
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Django
 db.sqlite3
-.env
-*.log
 *.sqlite3
+*.log
 *.pot
-*.pyc
+.env
+media/
+static_collected/
+
+# Data and Model Files
+data/
+models/
+model_artifacts/
+*.npy
+*.h5
+*.pkl
+*.joblib
+*.parquet
+*.csv
+*.json
+
+# IDE
 .DS_Store
-data
-models
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp

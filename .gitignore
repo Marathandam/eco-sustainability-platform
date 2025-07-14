@@ -1,3 +1,51 @@
-venv
-env
-models
+# Virtual Environment
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Django
+db.sqlite3
+*.sqlite3
+*.log
+*.pot
+.env
+media/
+static_collected/
+
+# Data and Model Files
+data/
+models/
+model_artifacts/
+**/data/
+**/models/
+**/model_artifacts/
+*.npy
+*.h5
+*.pkl
+*.joblib
+*.parquet
+*.csv
+test.json
+test_temp.js
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
