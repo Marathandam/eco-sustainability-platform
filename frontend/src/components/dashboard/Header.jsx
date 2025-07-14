@@ -1,18 +1,4 @@
-import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
 const Header = () => {
-  const { logout, djangoUser } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
   return (
     <header style={{
       background: 'white',
@@ -61,7 +47,7 @@ const Header = () => {
               fontSize: '0.875rem',
               fontWeight: '600'
             }}>
-              {(djangoUser?.full_name || djangoUser?.email)?.charAt(0).toUpperCase()}
+              E
             </div>
             <div>
               <div style={{ 
@@ -69,22 +55,16 @@ const Header = () => {
                 fontWeight: '500', 
                 color: 'var(--gray-900)' 
               }}>
-                {djangoUser?.full_name || 'User'}
+                Eco User
               </div>
               <div style={{ 
                 fontSize: '0.75rem', 
                 color: 'var(--gray-500)' 
               }}>
-                {djangoUser?.email}
+                Guest Mode
               </div>
             </div>
           </div>
-          <button
-            onClick={handleLogout}
-            className="btn btn-secondary"
-          >
-            Logout
-          </button>
         </div>
       </div>
     </header>

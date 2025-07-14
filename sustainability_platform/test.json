@@ -1,0 +1,18 @@
+ {
+    "name_prod": "Cotton Shirt BETTER_COTTON_INITIATIVE",
+    "description_prod": "A high-quality cotton shirt certified by BETTER_COTTON_INITIATIVE, ensuring sustainable farming and ethical practices.",
+    "cred_credibility": 0.8,
+    "eco_chemicals": 0.7,
+    "eco_lifetime": 0.75,
+    "eco_water": 0.8,
+    "eco_inputs": 0.85,
+    "eco_quality": 0.8,
+    "eco_energy": 0.75,
+    "eco_waste_air": 0.7,
+    "eco_environmental_management": 0.85,
+    "social_labour_rights": 0.8,
+    "social_business_practice": 0.8,
+    "social_social_rights": 0.8,
+    "social_company_responsibility": 0.85,
+    "social_conflict_minerals": 0.75
+  }
